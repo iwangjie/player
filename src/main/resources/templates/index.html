@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th=http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Player</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/js/assets/ie-emulation-modes-warning.js}"></script>
+    <link th:href="@{/css/carousel/carousel.css}" rel="stylesheet">
+    <link th:href="@{/css/creative/style.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" th:href="@{/plyr/dist/plyr.css}">
+    <link rel="stylesheet" th:href="@{/plyr/dist/demo.css}">
+</head>
+<body class="home blog group-blog">
+<!--
+//                       .::::.
+//                     .::::::::.
+//                    :::::::::::
+//                 ..:::::::::::'
+//              '::::::::::::'
+//                .::::::::::
+//           '::::::::::::::..
+//                ..::::::::::::.
+//              ``::::::::::::::::
+//               ::::``:::::::::'        .:::.
+//              ::::'   ':::::'       .::::::::.
+//            .::::'      ::::     .:::::::'::::.
+//           .:::'       :::::  .:::::::::' ':::::.
+//          .::'        :::::.:::::::::'      ':::::.
+//         .::'         ::::::::::::::'         ``::::.
+//     ...:::           ::::::::::::'              ``::.
+//    ```` ':.          ':::::::::'                  ::::..
+//                       '.:::::'                    ':'````..
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//                     美女保佑    早日摆脱单身狗
+-->
+<div id="page" class="hfeed site">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div id="logo" class="tim-logo">
+                    <a href="/">
+                        <!-- logo -->
+                        <img src="/images/logo.png" height="300" width="300">
+                        <span class="blog-name">player</span>
+                    </a>
+                </div><!-- end of #logo -->
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul id="menu-general-menu" class="nav navbar-nav">
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home active">
+                        <a title="主页" href="/">主页</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a title="分类" href="/classify">分类</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a title="上传视频" href="/upload/video">上传视频</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom" th:if="${isAdmin == true}">
+                        <a title="管理后台" href="/admin">管理后台</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom" th:if="${nick != null}">
+                        <a title="用户中心" href="javascript:;"><span th:text="${nick}"></span></a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom login" th:if="${nick == null}">
+                        <a title="登录" href="javascript:Util.goLogin();">登录/注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="top-section">
+        <div>
+            <section style="width:70%;">
+                <video poster="/videos/images/MP4001.jpg?v1" controls crossorigin>
+                    <!-- Video files -->
+                    <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.mp4" type="video/mp4">
+                    <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.webm" type="video/webm">
+
+                    <!-- Text track file -->
+                    <track kind="captions" label="English" srclang="en" src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
+
+                </video>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- FOOTER -->
+<footer>
+    <p style="text-align: center">&copy; player &middot; 赣ICP备16012195号 &middot; <a href="#">意见反馈</a> &middot; <a
+            href="/about">关于我们</a></p>
+</footer>
+</div>
+<!-- /.container -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/common.min.js"></script>
+<!-- Plyr core script -->
+<script src="/plyr/dist/plyr.js"></script>
+<!-- Docs script -->
+<script src="/plyr/dist/demo.js"></script>
+<!-- Rangetouch to fix <input type="range"> on touch devices (see https://rangetouch.com) -->
+<script src="https://cdn.rangetouch.com/1.0.1/rangetouch.js" async></script>
+
+<!-- Sharing libary (https://shr.one) -->
+<script src="https://cdn.shr.one/1.0.1/shr.js"></script>
+<script>
+    if(window.shr) {
+        window.shr.setup({
+            count: { classname: 'btn__count' }
+        });
+    }
+</script>
+</body>
+</html>
