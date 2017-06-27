@@ -1,24 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th=http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="zh-cn">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Player</title>
+    <title>PLAYER</title>
 
-    <!-- Bootstrap -->
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <script th:src="@{/js/assets/ie-emulation-modes-warning.js}"></script>
-    <link th:href="@{/css/carousel/carousel.css}" rel="stylesheet">
-    <link th:href="@{/css/creative/style.css}" rel="stylesheet">
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style-responsive.css" rel="stylesheet">
+
+    <script src="assets/js/chart-master/Chart.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <!-- Styles -->
     <link rel="stylesheet" th:href="@{/plyr/dist/plyr.css}">
     <link rel="stylesheet" th:href="@{/plyr/dist/demo.css}">
 </head>
-<body class="home blog group-blog">
+<body>
 <!--
 //                       .::::.
 //                     .::::::::.
@@ -41,67 +55,185 @@
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //                     美女保佑    早日摆脱单身狗
 -->
-<div id="page" class="hfeed site">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div id="logo" class="tim-logo">
-                    <a href="/">
-                        <!-- logo -->
-                        <img src="/images/logo.png" height="300" width="300">
-                        <span class="blog-name">player</span>
+<section id="container">
+    <!-- **********************************************************************************************************************************************************
+    TOP BAR CONTENT & NOTIFICATIONS
+    *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="PLAYER"></div>
+        </div>
+        <!--logo start-->
+        <a href="javascript:Util.goHome();" class="logo" style="color: #55646B;"><b>PLAYER</b></a>
+        <!--logo end-->
+        <div class="nav notify-row" id="top_menu">
+            <!--  notification start -->
+            <ul class="nav top-menu">
+                <li class="dropdown">
+                    <a href="javascript:Util.goHome();">
+                        <i class="fa fa-vine"></i>
+                        <span>分类</span>
                     </a>
-                </div><!-- end of #logo -->
-            </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul id="menu-general-menu" class="nav navbar-nav">
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home active">
-                        <a title="主页" href="/">主页</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                        <a title="分类" href="/classify">分类</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                        <a title="上传视频" href="/upload/video">上传视频</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom" th:if="${isAdmin == true}">
-                        <a title="管理后台" href="/admin">管理后台</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom" th:if="${nick != null}">
-                        <a title="用户中心" href="javascript:;"><span th:text="${nick}"></span></a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom login" th:if="${nick == null}">
-                        <a title="登录" href="javascript:Util.goLogin();">登录/注册</a></li>
-                </ul>
-            </div>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-star-o"></i>
+                        <span>推荐</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fire"></i>
+                        <span>热门</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:Util.logout();">
+                        <i class="fa fa-slack"></i>
+                        <span>投稿</span>
+                    </a>
+                </li>
+                <!-- inbox dropdown start-->
+                <li id="header_inbox_bar" sec:authorize="hasRole('ROLE_USER')" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" style="border:1px solid #666666 !important;"
+                       href="index.html#">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="badge bg-theme">5</span>
+                    </a>
+                    <ul class="dropdown-menu extended inbox">
+                        <div class="notify-arrow notify-arrow-green"></div>
+                        <li>
+                            <p class="green">You have 5 new messages</p>
+                        </li>
+                        <li>
+                            <a href="index.html#">
+                                <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
+                                <span class="subject">
+                                    <span class="from">Zac Snider</span>
+                                    <span class="time">Just now</span>
+                                    </span>
+                                <span class="message">
+                                        Hi mate, how is everything?
+                                    </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#">
+                                <span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>
+                                <span class="subject">
+                                    <span class="from">Divya Manian</span>
+                                    <span class="time">40 mins.</span>
+                                    </span>
+                                <span class="message">
+                                     Hi, I need your help with this.
+                                    </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#">
+                                <span class="photo"><img alt="avatar" src="assets/img/ui-danro.jpg"></span>
+                                <span class="subject">
+                                    <span class="from">Dan Rogers</span>
+                                    <span class="time">2 hrs.</span>
+                                    </span>
+                                <span class="message">
+                                        Love your new Dashboard.
+                                    </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#">
+                                <span class="photo"><img alt="avatar" src="assets/img/ui-sherman.jpg"></span>
+                                <span class="subject">
+                                    <span class="from">Dj Sherman</span>
+                                    <span class="time">4 hrs.</span>
+                                    </span>
+                                <span class="message">
+                                        Please, answer asap.
+                                    </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html#">See all messages</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- inbox dropdown end -->
+                <!-- nick start-->
+                <li>
+                    <a class="nick" data-toggle="dropdown" sec:authorize="hasRole('ROLE_USER')"
+                       href="javascript:Util.goUserCenter();">
+                        <span th:text="${#authentication.name}"></span>
+                    </a>
+                </li>
+                <!-- nick end-->
+            </ul>
+            <!--  notification end -->
         </div>
-    </nav>
-    <div class="top-section">
-        <div>
-            <section style="width:70%;">
-                <video poster="/videos/images/MP4001.jpg?v1" controls crossorigin>
-                    <!-- Video files -->
-                    <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.mp4" type="video/mp4">
-                    <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.webm" type="video/webm">
-
-                    <!-- Text track file -->
-                    <track kind="captions" label="English" srclang="en" src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
-
-                </video>
-            </section>
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li><a class="logout" sec:authorize="hasRole('ROLE_ANONYMOUS')"
+                       href="javascript:Util.goLogin();">Login</a></li>
+                <li><a class="logout" sec:authorize="hasRole('ROLE_USER')" href="javascript:Util.logout();">Logout</a>
+                </li>
+            </ul>
         </div>
-    </div>
-</div>
-<!-- FOOTER -->
-<footer>
-    <p style="text-align: center">&copy; player &middot; 赣ICP备16012195号 &middot; <a href="#">意见反馈</a> &middot; <a
-            href="/about">关于我们</a></p>
-</footer>
-</div>
+    </header>
+    <!--header end-->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+
+            <div class="row">
+                <div class="col-lg-9 main-chart">
+                    <video poster="/videos/images/MP4001.jpg?v1" controls crossorigin>
+                        <!-- Video files -->
+                        <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.mp4"
+                                type="video/mp4">
+                        <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.webm"
+                                type="video/webm">
+
+                        <!-- Text track file -->
+                        <track kind="captions" label="English" srclang="en"
+                               src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
+
+                    </video>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer" style="background: #ffffff;color: #55646b;">
+        <div class="text-center">
+            <p style="text-align: center">&copy; PLAYER &middot; 赣ICP备16012195号 &middot; <a href="#">意见反馈</a> &middot;
+                <a
+                        href="/about">关于我们</a></p>
+        </div>
+    </footer>
+    <!--footer end-->
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/jquery-1.8.3.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="assets/js/jquery.scrollTo.min.js"></script>
+<script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="assets/js/jquery.sparkline.js"></script>
+
+
+<!--common script for all pages-->
+<script src="assets/js/common-scripts.js"></script>
+
+<script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
+<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
+
+<!--script for this page-->
+<script src="assets/js/sparkline-chart.js"></script>
+<script src="assets/js/zabuto_calendar.js"></script>
 <!-- /.container -->
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
 <script src="/js/common.min.js"></script>
 <!-- Plyr core script -->
 <script src="/plyr/dist/plyr.js"></script>
@@ -113,9 +245,9 @@
 <!-- Sharing libary (https://shr.one) -->
 <script src="https://cdn.shr.one/1.0.1/shr.js"></script>
 <script>
-    if(window.shr) {
+    if (window.shr) {
         window.shr.setup({
-            count: { classname: 'btn__count' }
+            count: {classname: 'btn__count'}
         });
     }
 </script>

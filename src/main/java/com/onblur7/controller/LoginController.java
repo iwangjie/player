@@ -1,17 +1,14 @@
 package com.onblur7.controller;
 
 
-import com.onblur7.entity.Author;
-import com.onblur7.entity.Role;
-import com.onblur7.service.AuthorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by ronger on 2017/6/11.
@@ -19,12 +16,18 @@ import java.util.Set;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private AuthorService authorService;
-
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String loginOut(HttpServletRequest request, HttpServletResponse response){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login";
     }
 
     @GetMapping("/")
@@ -33,20 +36,7 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String index(@AuthenticationPrincipal Principal principal, Model model){
-        final boolean[] isAdmin = {false};
-        if(principal != null){
-            Author author = authorService.findByUsername(principal.getName());
-            model.addAttribute("nick",author.getNick());
-            model.addAttribute("account",principal.getName());
-            Set<Role> authorities = author.getAuthorities();
-            authorities.forEach(role -> {
-                if ("ADMIN".equals(role.getName())){
-                    isAdmin[0] = true;
-                }
-            });
-        }
-        model.addAttribute("isAdmin",isAdmin[0]);
+    public String index(){
         return "index";
     }
 

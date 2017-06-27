@@ -35,7 +35,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String register(HttpServletRequest request, Model model){
-        Role role = roleRepository.findByName("USER");
+        Role role = roleRepository.findByName("ROLE_USER");
         Set<Role> authorities = new HashSet<>();
         authorities.add(role);
         String username = request.getParameter("username");

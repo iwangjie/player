@@ -24,38 +24,33 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        try{
-            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-            String account = token.getName();
-            //从数据库找到的用户
-            UserDetails userDetails = null;
-            if(account != null) {
-                userDetails = userDetailsService.loadUserByUsername(account);
-            }
-            //
-            if(userDetails == null) {
-                throw new UsernameNotFoundException("用户名/密码无效");
-            }else if (!userDetails.isEnabled()){
-                throw new DisabledException("用户已被禁用");
-            }else if (!userDetails.isAccountNonExpired()) {
-                throw new AccountExpiredException("账号已过期");
-            }else if (!userDetails.isAccountNonLocked()) {
-                throw new LockedException("账号已被锁定");
-            }else if (!userDetails.isCredentialsNonExpired()) {
-                throw new LockedException("凭证已过期");
-            }
-            //数据库用户的密码
-            String password = userDetails.getPassword();
-            //与authentication里面的credentials相比较
-            if(!password.equals(MD5Tools.MD5(token.getCredentials().toString()))) {
-                throw new BadCredentialsException("Invalid username/password");
-            }
-            //授权
-            return new UsernamePasswordAuthenticationToken(userDetails, password,userDetails.getAuthorities());
-        }catch (Exception e){
-            e.printStackTrace();
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+        String account = token.getName();
+        //从数据库找到的用户
+        UserDetails userDetails = null;
+        if (account != null) {
+            userDetails = userDetailsService.loadUserByUsername(account);
         }
-        return null;
+        //
+        if (userDetails == null) {
+            throw new UsernameNotFoundException("用户名/密码无效");
+        } else if (!userDetails.isEnabled()) {
+            throw new DisabledException("用户已被禁用");
+        } else if (!userDetails.isAccountNonExpired()) {
+            throw new AccountExpiredException("账号已过期");
+        } else if (!userDetails.isAccountNonLocked()) {
+            throw new LockedException("账号已被锁定");
+        } else if (!userDetails.isCredentialsNonExpired()) {
+            throw new LockedException("凭证已过期");
+        }
+        //数据库用户的密码
+        String password = userDetails.getPassword();
+        //与authentication里面的credentials相比较
+        if (!password.equals(MD5Tools.MD5(token.getCredentials().toString()))) {
+            throw new BadCredentialsException("Invalid username/password");
+        }
+        //授权
+        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
     @Override
