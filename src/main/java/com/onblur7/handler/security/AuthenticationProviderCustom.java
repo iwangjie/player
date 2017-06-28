@@ -46,7 +46,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         //数据库用户的密码
         String password = userDetails.getPassword();
         //与authentication里面的credentials相比较
-        if (!password.equals(MD5Tools.MD5(token.getCredentials().toString()))) {
+        if (!password.equals(MD5Tools.md5EncodePassword(token.getCredentials().toString(),token.getName()))) {
             throw new BadCredentialsException("Invalid username/password");
         }
         //授权

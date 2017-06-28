@@ -76,26 +76,38 @@
                         <span>分类</span>
                     </a>
                 </li>
-                <li>
-                    <a>
+                <li class="dropdown">
+                    <a href="javascript";>
                         <i class="fa fa-star-o"></i>
                         <span>推荐</span>
                     </a>
                 </li>
-                <li>
-                    <a>
+                <li class="dropdown">
+                    <a href="javascript";>
                         <i class="fa fa-fire"></i>
                         <span>热门</span>
                     </a>
                 </li>
-                <li>
-                    <a href="javascript:Util.logout();">
+                <li class="dropdown">
+                    <a href="javascript:Util.submission();">
                         <i class="fa fa-slack"></i>
                         <span>投稿</span>
                     </a>
                 </li>
+                <li class="dropdown">
+                    <a href="javascript:Util.experiment();">
+                        <i class="fa fa-code"></i>
+                        <span>Experiment</span>
+                    </a>
+                </li>
+            </ul>
+            <!--  notification end -->
+        </div>
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu notify-row">
+                <li></li>
                 <!-- inbox dropdown start-->
-                <li id="header_inbox_bar" sec:authorize="hasRole('ROLE_USER')" class="dropdown">
+                <li id="header_inbox_bar" class="dropdown" sec:authorize="hasRole('ROLE_USER')">
                     <a data-toggle="dropdown" class="dropdown-toggle" style="border:1px solid #666666 !important;"
                        href="index.html#">
                         <i class="fa fa-envelope-o"></i>
@@ -168,11 +180,6 @@
                     </a>
                 </li>
                 <!-- nick end-->
-            </ul>
-            <!--  notification end -->
-        </div>
-        <div class="top-menu">
-            <ul class="nav pull-right top-menu">
                 <li><a class="logout" sec:authorize="hasRole('ROLE_ANONYMOUS')"
                        href="javascript:Util.goLogin();">Login</a></li>
                 <li><a class="logout" sec:authorize="hasRole('ROLE_USER')" href="javascript:Util.logout();">Logout</a>

@@ -44,7 +44,7 @@ public class RegisterController {
         author.setId(UUID.randomUUID().toString());
         author.setUsername(username);
         author.setNick(username);
-        author.setPassword(MD5Tools.MD5(password));
+        author.setPassword(MD5Tools.md5EncodePassword(password,author.getUsername()));
         author.setAuthorities(authorities);
         author.setCreateTime(new Date().getTime());
         author.setUpdateTime(new Date().getTime());

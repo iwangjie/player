@@ -1,5 +1,7 @@
 package com.onblur7.util;
 
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+
 import java.security.MessageDigest;
 
 /**
@@ -39,5 +41,20 @@ public class MD5Tools {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     *
+     * 以“用户名+密码”为加密对象，进行MD5加密
+     * @param password
+     * @param userName
+     * @return
+     */
+    public static String md5EncodePassword(String password, String userName)
+    {
+        Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+        md5.setEncodeHashAsBase64(false);
+        String encodedPassword = md5.encodePassword(password, userName);
+        return encodedPassword;
     }
 }
