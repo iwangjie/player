@@ -30,12 +30,12 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String toIndex(){
-        return "redirect:/index";
+        return "redirect:/";
     }
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index(){
         return "index";
     }

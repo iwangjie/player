@@ -40,10 +40,11 @@ MAIN CONTENT
                 <input type="text" class="form-control" id="username" name="username" placeholder="用户名/邮箱" autofocus>
                 <br>
                 <input type="password" id="password" name="password" class="form-control" placeholder="密码">
+                <br>
+                <input type="text" id="invitationcode" name="invitationcode" class="form-control hide" placeholder="邀请码">
                 <label class="checkbox">
 		                <span class="pull-right">
-		                    <a data-toggle="modal" href="javascript:;"> 校验</a>
-
+		                    <a href="javascript:Util.checkCode();"> 校验</a>
 		                </span>
                 </label>
                 <div th:if="${param.error}">
@@ -52,12 +53,12 @@ MAIN CONTENT
                 <div th:if="${result}">
                     <p style="text-align: center" class="text-success" th:text="${result}"></p>
                 </div>
-                <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
+                <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN UP</button>
                 <hr>
 
                 <div class="registration">
                     已有账号?<br/>
-                    <a class="" href="/login">
+                    <a href="/login">
                         登录
                     </a>
                 </div>
@@ -71,8 +72,9 @@ MAIN CONTENT
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="/assets/js/jquery.js"></script>
+<script src="assets/js/jquery-1.8.3.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
-
+<script src="/js/common.min.js"></script>
 <!--BACKSTRETCH-->
 <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
 <script type="text/javascript" src="/assets/js/jquery.backstretch.min.js"></script>

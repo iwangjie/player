@@ -12,11 +12,12 @@ Premium: http://www.gridgum.com
 /* BASIC THEME CONFIGURATION */
 body {
     color: #797979;
-	background: #ffffff;
     font-family: 'Ruda', sans-serif;
     padding: 0px !important;
     margin: 0px !important;
     font-size:13px;
+    background: #ffffff;
+    /*background: url("../../images/svg/player.svg");*/
 }
 
 ul li {
@@ -397,7 +398,7 @@ ul.sidebar-menu li a.active i {
 
 /* MAIN CONTENT CONFIGURATION */
 #main-content {
-    margin-left: 210px;
+    margin-left: 70px;
 }
 
 .header, .footer {
@@ -420,10 +421,7 @@ ul.sidebar-menu li a.active i {
 .wrapper {
     display: inline-block;
     margin-top: 60px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    padding-top: 0px;
+    padding: 0px 15px 15px 15px;
     width: 100%;
 }
 
@@ -510,7 +508,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     /* Safari and Chrome */
     .dropdown-menu.extended  {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.176) !important;
-    };
+    }
     }
 
 .dropdown-menu.extended li p {
@@ -872,7 +870,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 
 /* MAIN CHART CONFIGURATION */
 .main-chart {
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 .mleft {
@@ -2260,9 +2258,14 @@ label {
 
 /*footer*/
 .site-footer {
-    background: #68dff0;
-    color: #fff;
-    padding: 10px 0;
+   /* position: fixed;*/
+    left: 0;
+    right: 0;
+    z-index: 1002;
+    background: #55646B;
+    color: #ffffff;
+    min-height: 100px;
+    padding: 25px 15px;
 }
 
 
@@ -2287,4 +2290,13 @@ label {
 .nick {
 
 }
+
+.message-box a {
+    border:1px solid #666666 !important;
+}
+
+.setting a {
+    border:1px solid #666666 !important;
+}
+
 
